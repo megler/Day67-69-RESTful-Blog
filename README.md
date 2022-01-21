@@ -2,7 +2,7 @@
 
 A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - RESTful Blog
 
-## Usage
+## Overview
 
 This application started exploring [Flask Blueprints](https://hackersandslackers.com/flask-blueprints) and the [application factory](https://hackersandslackers.com/flask-application-factory). While this
 creates a more complex application with a lot of moving parts, in the end the
@@ -25,6 +25,12 @@ Users must be logged in to save comments on any blog post.
 
 The contact form utilized the [MailJet API](mailjet.com) to send emails from the
 contact form.
+
+## Usage
+
+When the flask app is run via `flask run` the database will be generated automatically.
+The first person to register as a user will be considered an admin. All subsequent
+will be subscribers.
 
 ## License
 
