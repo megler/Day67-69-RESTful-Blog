@@ -113,7 +113,9 @@ def edit_post(index):
 def delete_post(index):
     post_to_delete = BlogPosts.query.get(index)
     comments_to_delete = Comments.query.filter_by(post_comment_id=index).all()
-    db.session.delete(comments_to_delete)
+    for comment in comments_to_delete:
+        db.session.delete(comment)
+        db.session.commit()
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for("home_bp.get_all_posts"))
