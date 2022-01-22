@@ -27,7 +27,7 @@ class Config:
     SESSION_COOKIE_SECURE = False
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "sqlite:///posts.db")
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
             "postgres://", "postgresql://", 1)

@@ -1,4 +1,5 @@
 """Initialize Flask app."""
+import dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
@@ -6,11 +7,18 @@ from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_gravatar import Gravatar
+from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists
+from dotenv import load_dotenv
+from os import environ, path
 
 db = SQLAlchemy()
 ckeditor = CKEditor()
 login_manager = LoginManager()
 csrf = CSRFProtect()
+
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, ".env"))
 
 
 def create_app():
@@ -45,7 +53,11 @@ def create_app():
         from .home import routes
         from .models import BlogPosts, Users, Comments
 
-        db.create_all()
+        engine = create_engine(
+            environ.get("DATABASE_URL", "sqlite:///posts.db"))
+        if database_exists(engine.url) == False:
+            db.create_all()
+
         # Register Blueprints
         app.register_blueprint(users.routes.users_bp)
         app.register_blueprint(posts.routes.posts_bp)
