@@ -19,10 +19,11 @@ class Config:
 
     FLASK_APP = environ.get("FLASK_APP")
     FLASK_ENV = environ.get("FLASK_ENV")
-    TESTING = True
+    TESTING = False
     SECRET_KEY = secrets.token_urlsafe(16)
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
+    SESSION_COOKIE_SECURE = False
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
