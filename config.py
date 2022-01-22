@@ -21,6 +21,7 @@ class Config:
     FLASK_ENV = environ.get("FLASK_ENV")
     TESTING = False
     SECRET_KEY = secrets.token_urlsafe(16)
+    WTF_CSRF_TIME_LIMIT = 30
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     SESSION_COOKIE_SECURE = False

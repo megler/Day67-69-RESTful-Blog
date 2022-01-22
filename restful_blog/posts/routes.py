@@ -39,6 +39,7 @@ def show_post(index):
             text=form.comment_body.data,
             post_comment_id=post.id,
             comment_user_id=current_user.id,
+            comment_author=current_user.name,
         )
         db.session.add(add_comment_db)
         db.session.commit()
@@ -86,15 +87,12 @@ def edit_post(index):
     page_title = "Edit Post"
     post = BlogPosts.query.get(index)
     edit_form = CreatePost(
-        request.POST,
-        meta={"csrf_context": request.session},
         title=post.title,
         subtitle=post.subtitle,
         img_url=post.img_url,
         author=post.author,
         body=post.body,
     )
-
     if request.method == "POST":
         post_edit = post
         post_edit.title = edit_form.title.data
