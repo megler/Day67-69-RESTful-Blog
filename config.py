@@ -9,6 +9,7 @@
 from os import environ, path
 from dotenv import load_dotenv
 import secrets
+import re
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
@@ -27,6 +28,9 @@ class Config:
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql://", 1)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Mailjet
