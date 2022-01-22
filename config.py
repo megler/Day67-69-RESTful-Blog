@@ -23,7 +23,7 @@ class Config:
     SECRET_KEY = secrets.token_urlsafe(16)
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
-    SESSION_COOKIE_DOMAIN = False
+
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL1",
                                           "sqlite:///posts.db")

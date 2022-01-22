@@ -22,45 +22,7 @@
       <div class="col-lg-8 col-md-10 mx-auto">
 
         <!-- This is where the form will go -->
-        <form method="post">
-          {{ form.csrf_token }}
-          <label>
-            <p class="label-txt">Title</p>
-            {{ form.title(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">Subitle</p>
-            {{ form.subtitle(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">Your Name</p>
-            {{ form.author(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">Blog Image URL</p>
-            {{ form.img_url(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">Blog Content</p>
-            {{ form.body() }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          {{ form.submit(class="btn btn-primary") }}
-        </form>
+        {{ wtf.quick_form(form, novalidate=True, button_map = {"submit":"primary"}) }}
         {{ ckeditor.load() }}
         {{ ckeditor.config(name='body') }}
       </div>

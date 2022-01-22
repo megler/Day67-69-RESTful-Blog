@@ -28,25 +28,7 @@
             <strong>Error:</strong>
             {{ error }}</p>
         {% endif %}
-        <form method="post">
-          {{ form.csrf_token }}
-          <label>
-            <p class="label-txt">ENTER YOUR EMAIL</p>
-            {{ form.email(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">ENTER YOUR PASSWORD</p>
-            {{ form.password(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          {{ form.submit(class="btn btn-primary") }}
-        </form>
-
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
       </div>
     </div>
   </div>

@@ -22,31 +22,9 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form method="post">
-          {{ form.hidden_tag() }}
-          <label>
-            <p class="label-txt">ENTER YOUR NAME</p>
-            {{ form.user_fname(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">ENTER YOUR EMAIL</p>
-            {{ form.email(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          <label>
-            <p class="label-txt">ENTER YOUR PASSWORD</p>
-            {{ form.password(class='input') }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
-          {{ form.submit(class="btn btn-primary") }}
-        </form>
+
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
       </div>
     </div>
   </div>

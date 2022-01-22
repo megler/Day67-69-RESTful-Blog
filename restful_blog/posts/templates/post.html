@@ -31,13 +31,7 @@
         <h3>Comments</h3>
         <form method="post">
           {{ form.csrf_token }}
-          <label>
-            <p class="label-txt">ENTER YOUR NAME</p>
-            {{ form.comment_body() }}
-            <div class="line-box">
-              <div class="line"></div>
-            </div>
-          </label><br>
+          {{ form.comment_body() }}
           {{ form.submit(class="btn btn-primary") }}
         </form>
         {{ ckeditor.load() }}
@@ -58,6 +52,7 @@
                 <div class="commentText">
                   {{comment.text|safe}}
                   <span class="date sub-text">{{ comment.users.name }}</span>
+
                 </div>
               </li>
             </ul>
