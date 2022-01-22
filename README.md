@@ -32,6 +32,26 @@ When the flask app is run via `flask run` the database will be generated automat
 The first person to register as a user will be considered an admin. All subsequent
 will be subscribers.
 
+## Notes for Pushing To Heroku Instance
+
+1. When you convert your database from SQLite to Postgres, Heroku will create a
+   URL that starts with `postgres://` and as a result your database will not properly
+   deploy.
+
+A workaround that needs to be improved is to create a second ENV variable called
+DATABASE_URL1, copy the Heroku generated postgres link and change to `postgresql://`.
+
+2. There was a persistent CRSF issue in production that did not exist locally.
+   The app would allow you to log in, but almost immediately log you back out again.
+   It was finally narrowed down to the Procfile that Gunicorn uses. Procfile should be
+   `web: gunicorn "restful_blog:create_app()" --preload`
+
+The `"restful_blog:create_app()"` will help Gunicorn find the info it needs to
+launch the application if you are using a blueprint layout. The `--preload` _should_
+fix the CRSF issue.
+
+Everything else spun up as expected on Heroku with no other special workarounds.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
