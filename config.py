@@ -26,7 +26,7 @@ class Config:
     SESSION_COOKIE_SECURE = False
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "sqlite:///posts.db")
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Mailjet
