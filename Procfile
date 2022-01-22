@@ -1,1 +1,1 @@
-web: gunicorn wsgi:restful_blog
+web: gunicorn "restful_blog:create_app()"
