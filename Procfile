@@ -1,1 +1,1 @@
-web: gunicorn __init__:restful_blog
+web: gunicorn config:restful_blog
