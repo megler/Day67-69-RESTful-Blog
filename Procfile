@@ -1,1 +1,1 @@
-web: gunicorn "restful_blog:create_app()"
+web: gunicorn "restful_blog:create_app()" --preload
