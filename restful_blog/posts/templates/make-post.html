@@ -23,7 +23,7 @@
 
         <!-- This is where the form will go -->
         <form method="post">
-
+          {{ form.csrf_token }}
           <label>
             <p class="label-txt">Title</p>
             {{ form.title(class='input') }}
