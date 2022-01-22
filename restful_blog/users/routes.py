@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, redirect, url_for, request,
 from flask import current_app as app
 from restful_blog.models import BlogPosts, db, Users, Comments
 from restful_blog.forms import NewUserRegister, LoginForm
+from wtforms.csrf.session import SessionCSRF
 from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -14,7 +15,8 @@ users_bp = Blueprint("users_bp",
 
 @users_bp.route("/register", methods=["GET", "POST"])
 def register():
-    form = NewUserRegister()
+    form = NewUserRegister(request.POST,
+                           meta={"csrf_context": request.session})
 
     if request.method == "POST" and form.validate_on_submit():
         username = form.user_fname.data
@@ -47,7 +49,7 @@ def register():
 @users_bp.route("/login/", methods=["GET", "POST"])
 @users_bp.route("/login/<error>", methods=["GET", "POST"])
 def login(error=None):
-    form = LoginForm()
+    form = LoginForm(request.POST, meta={"csrf_context": request.session})
     """User Login."""
     if current_user.is_authenticated:
         return redirect(url_for("home_bp.get_all_posts"))

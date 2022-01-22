@@ -86,12 +86,15 @@ def edit_post(index):
     page_title = "Edit Post"
     post = BlogPosts.query.get(index)
     edit_form = CreatePost(
+        request.POST,
+        meta={"csrf_context": request.session},
         title=post.title,
         subtitle=post.subtitle,
         img_url=post.img_url,
         author=post.author,
         body=post.body,
     )
+
     if request.method == "POST":
         post_edit = post
         post_edit.title = edit_form.title.data
