@@ -114,4 +114,4 @@ def delete_post(index):
     post_to_delete = BlogPosts.query.get(index)
     db.session.delete(post_to_delete)
     db.session.commit()
-    return redirect(url_for("home_bp.get_all_posts", index=index))
+    return redirect(url_for("home_bp.get_all_posts"))

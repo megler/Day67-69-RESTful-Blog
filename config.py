@@ -12,7 +12,6 @@ import secrets
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
-secret = secrets.token_urlsafe(16)
 
 
 class Config:
@@ -21,10 +20,10 @@ class Config:
     FLASK_APP = environ.get("FLASK_APP")
     FLASK_ENV = environ.get("FLASK_ENV")
     TESTING = False
-    SECRET_KEY = secret
+    SECRET_KEY = secrets.token_urlsafe(16)
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
-    WTF_CSRF_SECRET_KEY = secret
+    WTF_CSRF_SECRET_KEY = secrets.token_urlsafe(16)
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL1",
