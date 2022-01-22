@@ -26,22 +26,22 @@
           {{ form.hidden_tag() }}
           <label>
             <p class="label-txt">ENTER YOUR NAME</p>
-            <input type="text" class="input">
-            <div class="line-box">{{ form.user_fname }}
+            {{ form.user_fname(class='input') }}
+            <div class="line-box">
               <div class="line"></div>
             </div>
           </label>
           <label>
             <p class="label-txt">ENTER YOUR EMAIL</p>
-            <input type="text" class="input">
-            <div class="line-box">{{ form.email }}
+            {{ form.email(class='input') }}
+            <div class="line-box">
               <div class="line"></div>
             </div>
           </label>
           <label>
             <p class="label-txt">ENTER YOUR PASSWORD</p>
-            <input type="text" class="input">
-            <div class="line-box">{{ form.password }}
+            {{ form.password(class='input') }}
+            <div class="line-box">
               <div class="line"></div>
             </div>
           </label>
