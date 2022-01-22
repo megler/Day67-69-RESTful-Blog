@@ -54,7 +54,7 @@ def create_app():
         from .models import BlogPosts, Users, Comments
 
         engine = create_engine(
-            environ.get("DATABASE_URL", "sqlite:///posts.db"))
+            environ.get("DATABASE_URL1", "sqlite:///posts.db"))
         if database_exists(engine.url) == False:
             db.create_all()
 
