@@ -1,1 +1,1 @@
-web: gunicorn config:restful_blog
+web: gunicorn wsgi:restful_blog
