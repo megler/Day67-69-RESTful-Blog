@@ -42,9 +42,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('users_bp.login') }}">Login</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('users_bp.register') }}">Register</a>
-              </li>
+              {#  register url goes here if you put it back in #}
             {% endif %}
             {% if current_user.is_authenticated : %}
               <li class="nav-item">

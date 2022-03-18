@@ -11,37 +11,36 @@ users_bp = Blueprint("users_bp",
                      template_folder="templates",
                      static_folder="static")
 
+# @users_bp.route("/register", methods=["GET", "POST"])
+# def register():
+#     form = NewUserRegister()
 
-@users_bp.route("/register", methods=["GET", "POST"])
-def register():
-    form = NewUserRegister()
+#     if request.method == "POST" and form.validate_on_submit():
+#         username = form.user_fname.data
+#         email = form.email.data
+#         password = generate_password_hash(form.password.data,
+#                                           method="pbkdf2:sha256",
+#                                           salt_length=8)
+#         email_check = Users.query.filter_by(email=email).first()
 
-    if request.method == "POST" and form.validate_on_submit():
-        username = form.user_fname.data
-        email = form.email.data
-        password = generate_password_hash(form.password.data,
-                                          method="pbkdf2:sha256",
-                                          salt_length=8)
-        email_check = Users.query.filter_by(email=email).first()
-
-        if email_check != None:
-            if email == email_check.email:
-                error = "There is already a user with this email. Perhaps you meant to log in?"
-                return redirect(url_for(
-                    "users_bp.login",
-                    error=error,
-                ))
-        else:
-            new_user = Users(
-                name=username,
-                email=email,
-                password=password,
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user)
-            return redirect(url_for("home_bp.get_all_posts"))
-    return render_template("register.html", form=form)
+#         if email_check != None:
+#             if email == email_check.email:
+#                 error = "There is already a user with this email. Perhaps you meant to log in?"
+#                 return redirect(url_for(
+#                     "users_bp.login",
+#                     error=error,
+#                 ))
+#         else:
+#             new_user = Users(
+#                 name=username,
+#                 email=email,
+#                 password=password,
+#             )
+#             db.session.add(new_user)
+#             db.session.commit()
+#             login_user(new_user)
+#             return redirect(url_for("home_bp.get_all_posts"))
+#     return render_template("register.html", form=form)
 
 
 @users_bp.route("/login/", methods=["GET", "POST"])
