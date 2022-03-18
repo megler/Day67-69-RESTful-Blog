@@ -52,6 +52,6 @@ fix the CRSF issue.
 
 Everything else spun up as expected on Heroku with no other special workarounds.
 
-## License
+## License  
 
 [MIT](https://choosealicense.com/licenses/mit/)
