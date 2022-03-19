@@ -3,6 +3,7 @@ from flask import current_app as app
 from flask_login import current_user
 from restful_blog.models import BlogPosts, Users, Comments
 from mailjet_rest import Client
+import os
 
 # Blueprint Configuration
 home_bp = Blueprint("home_bp",
@@ -30,21 +31,24 @@ def contact():
     api_secret = app.config["API_SECRET"]
     """Contact Page"""
     if request.method == "POST":
+        sname = request.form["name"]
+        semail = request.form["email"]
+        smessage = request.form["message"]
         mailjet = Client(auth=(api_key, api_secret), version="v3.1")
         data = {
             "Messages": [{
                 "From": {
-                    "Email": request.form["email"],
-                    "Name": request.form["name"],
+                    "Email": os.environ["MJ_SENDER_EMAIL"],
+                    "Name": "Marceia with Python Study Group",
                 },
                 "To": [{
-                    "Email": "YOUR-EMAIL@EMAIL.COM",
-                    "Name": "YOUR NAME"
+                    "Email": os.environ["MJ_RECEIVER_EMAIL"],
+                    "Name": "Marceia"
                 }],
                 "Subject":
-                "Contact Form From Flask",
+                "Contact Form From Your blog",
                 "TextPart":
-                request.form["message"],
+                f"From: {sname}\nEmail: {semail}\nMessage: {smessage}",
             }]
         }
         result = mailjet.send.create(data=data)
