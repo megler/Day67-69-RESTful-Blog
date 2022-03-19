@@ -6,6 +6,7 @@ from flask_ckeditor import CKEditor
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_gravatar import Gravatar
+from flask_admin import Admin
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists
 from dotenv import load_dotenv
@@ -24,6 +25,7 @@ def create_app():
     """Create Flask application."""
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
+
     Bootstrap(app)
     ckeditor.init_app(app)
     db.init_app(app)
@@ -39,6 +41,7 @@ def create_app():
         use_ssl=False,
         base_url=None,
     )
+    admin = Admin(app, template_mode="bootstrap3")
 
     @login_manager.user_loader
     def load_user(id):

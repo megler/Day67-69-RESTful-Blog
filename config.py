@@ -24,6 +24,7 @@ class Config:
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     WTF_CSRF_SECRET_KEY = secrets.token_urlsafe(16)
+    FLASK_ADMIN_SWATCH = "cerulean"
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL1",
