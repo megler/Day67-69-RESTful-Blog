@@ -9,6 +9,7 @@ from flask_gravatar import Gravatar
 from flask_admin import Admin
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists
+from flask_admin.contrib.sqla import ModelView
 from dotenv import load_dotenv
 from os import environ, path
 
@@ -54,6 +55,10 @@ def create_app():
         from .posts import routes
         from .home import routes
         from .models import BlogPosts, Users, Comments
+
+        admin.add_view(ModelView(Users, db.session))
+        admin.add_view(ModelView(BlogPosts, db.session))
+        admin.add_view(ModelView(Comments, db.session))
 
         engine = create_engine(
             environ.get("DATABASE_URL1", "sqlite:///posts.db"))
