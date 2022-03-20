@@ -4,6 +4,10 @@ A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - RESTf
 
 ## Overview
 
+You can see a working copy at [Changelog](https://marceia-flask-blog.herokuapp.com/)
+**NOTE:** Site is on a free Heroku server. Give it a minute to spin up and start.
+
+
 This application started exploring [Flask Blueprints](https://hackersandslackers.com/flask-blueprints) and the [application factory](https://hackersandslackers.com/flask-application-factory). While this
 creates a more complex application with a lot of moving parts, in the end the
 code is more encapsulated and easier to scale.
