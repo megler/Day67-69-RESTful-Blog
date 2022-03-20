@@ -1,10 +1,10 @@
-# RESTful Blog
+# change_log Blog
 
-A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - RESTful Blog
+A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - change_log Blog
 
 ## Overview
 
-You can see a working copy at [Changelog](https://marceia-flask-blog.herokuapp.com/)
+You can see a working copy at [change_log](https://marceia-flask-blog.herokuapp.com/)
 
 **NOTE:** Site is on a free Heroku server. Give it a minute to spin up and start.
 
