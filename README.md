@@ -6,7 +6,7 @@ A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - chang
 
 You can see a working copy at [change_log](https://marceia-flask-blog.herokuapp.com/)
 
-**NOTE:** Site is on a free Heroku server. Give it a minute to spin up and start.
+**NOTE:** Site is on a free Heroku server. Give it a minute to spin up and start. 
 
 
 This application started exploring [Flask Blueprints](https://hackersandslackers.com/flask-blueprints) and the [application factory](https://hackersandslackers.com/flask-application-factory). While this
