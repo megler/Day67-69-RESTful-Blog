@@ -1,6 +1,6 @@
-# change_log Blog
+# change_blog Blog
 
-A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - change_log Blog
+A Blog application using Flask and SQLAlchemy. Python Bootcamp Day 67/69 - change_blog Blog
 
 ## Overview
 
