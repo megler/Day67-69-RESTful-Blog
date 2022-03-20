@@ -12,6 +12,7 @@ from sqlalchemy_utils import database_exists
 from flask_admin.contrib.sqla import ModelView
 from dotenv import load_dotenv
 from os import environ, path
+import os
 
 db = SQLAlchemy()
 ckeditor = CKEditor()
@@ -67,21 +68,24 @@ def create_app():
         app.register_blueprint(home.routes.home_bp)
 
         class MyModelView(ModelView):
+            """/control of model views (users, comments, posts)"""
             def is_accessible(self):
-                if current_user.is_authenticated and current_user.id == 1:
-                    return "logged in admin"
+                if (current_user.is_authenticated and current_user.email
+                        == os.environ.get("ADMIN_EMAIL")):
+                    return True
 
             def inaccessible_callback(self, name, **kwargs):
                 return redirect(url_for("home_bp.get_all_posts"))
 
         class MyAdminIndexView(AdminIndexView):
+            """/admin view"""
             def is_accessible(self):
-                return current_user.get_id()
+                if (current_user.is_authenticated and current_user.email
+                        == os.environ.get("ADMIN_EMAIL")):
+                    return True
 
             def inaccessible_callback(self, name, **kwargs):
-                if not current_user.is_authenticated or not current_user.id == 1:
-                    print("not logged in")
-                    return redirect(url_for("home_bp.get_all_posts"))
+                return redirect(url_for("home_bp.get_all_posts"))
 
         # Flask-Admin
         admin = Admin(
@@ -90,8 +94,8 @@ def create_app():
             template_mode="bootstrap3",
             index_view=MyAdminIndexView(),
         )
-        admin.add_view(ModelView(Users, db.session))
-        admin.add_view(ModelView(BlogPosts, db.session))
-        admin.add_view(ModelView(Comments, db.session))
+        admin.add_view(MyModelView(Users, db.session))
+        admin.add_view(MyModelView(BlogPosts, db.session))
+        admin.add_view(MyModelView(Comments, db.session))
 
         return app
