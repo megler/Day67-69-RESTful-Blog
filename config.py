@@ -1,6 +1,6 @@
-# RESTful Blog
+# change_log Blog
 #
-# Python Bootcamp Day 67 - RESTful Blog
+# Python Bootcamp Day 67 - change_log Blog
 # Usage:
 #      A Blog application using Flask and SQLAlchemy.
 #
