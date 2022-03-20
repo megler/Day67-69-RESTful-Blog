@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user
 from flask_wtf.csrf import CSRFProtect
 from flask_gravatar import Gravatar
 from flask_admin import Admin, AdminIndexView
+from flask_admin.menu import MenuLink
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists
 from flask_admin.contrib.sqla import ModelView
@@ -67,6 +68,7 @@ def create_app():
         app.register_blueprint(posts.routes.posts_bp)
         app.register_blueprint(home.routes.home_bp)
 
+        # Flask-Admin
         class MyModelView(ModelView):
             """/control of model views (users, comments, posts)"""
             def is_accessible(self):
@@ -87,7 +89,6 @@ def create_app():
             def inaccessible_callback(self, name, **kwargs):
                 return redirect(url_for("home_bp.get_all_posts"))
 
-        # Flask-Admin
         admin = Admin(
             app,
             name="Dashboard",
@@ -97,5 +98,13 @@ def create_app():
         admin.add_view(MyModelView(Users, db.session))
         admin.add_view(MyModelView(BlogPosts, db.session))
         admin.add_view(MyModelView(Comments, db.session))
+        admin.add_link(
+            MenuLink(
+                name="Front Page",
+                category="Links",
+                url=("/"),
+            ))
+        admin.add_link(MenuLink(name="Logout", category="Links",
+                                url="/logout"))
 
         return app

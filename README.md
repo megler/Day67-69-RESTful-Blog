@@ -11,11 +11,12 @@ code is more encapsulated and easier to scale.
 The blog has how been updated to include:
 
 1. User login and authentication
-2. A very basic admin function that needs to be fleshed out
-3. A comments section
-4. A working contact form
-5. Contextual error messages
-6. A relational database
+2. An admin panel that is protected with user authentication
+3. A very basic admin function that needs to be fleshed out
+4. A comments section
+5. A working contact form
+6. Contextual error messages
+7. A relational database
 
 The admin is currently the first user in the database. Every other user is a
 subscriber. The navigation menu will change if the user is an admin and logged in.
