@@ -58,7 +58,7 @@ The `"restful_blog:create_app()"` will help Gunicorn find the info it needs to
 launch the application if you are using a blueprint layout. The `--preload` _should_
 fix the CRSF issue.
 
-Everything else spun up as expected on Heroku with no other special workarounds.
+Everything else spun up as expected on Heroku with no other special workarounds. 
 
 ## License  
 
