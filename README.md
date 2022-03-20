@@ -14,7 +14,7 @@ creates a more complex application with a lot of moving parts, in the end the
 code is more encapsulated and easier to scale.
 
 The blog has how been updated to include:
-
+ 
 1. User login and authentication
 2. An admin panel that is protected with user authentication
 3. A comments section
