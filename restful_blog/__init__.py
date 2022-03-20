@@ -1,12 +1,12 @@
 """Initialize Flask app."""
-from flask import Flask
+from flask import Flask, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_wtf.csrf import CSRFProtect
 from flask_gravatar import Gravatar
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists
 from flask_admin.contrib.sqla import ModelView
@@ -42,7 +42,6 @@ def create_app():
         use_ssl=False,
         base_url=None,
     )
-    admin = Admin(app, template_mode="bootstrap3")
 
     @login_manager.user_loader
     def load_user(id):
@@ -56,10 +55,7 @@ def create_app():
         from .home import routes
         from .models import BlogPosts, Users, Comments
 
-        admin.add_view(ModelView(Users, db.session))
-        admin.add_view(ModelView(BlogPosts, db.session))
-        admin.add_view(ModelView(Comments, db.session))
-
+        # Database
         engine = create_engine(
             environ.get("DATABASE_URL1", "sqlite:///posts.db"))
         if database_exists(engine.url) == False:
@@ -69,5 +65,33 @@ def create_app():
         app.register_blueprint(users.routes.users_bp)
         app.register_blueprint(posts.routes.posts_bp)
         app.register_blueprint(home.routes.home_bp)
+
+        class MyModelView(ModelView):
+            def is_accessible(self):
+                if current_user.is_authenticated and current_user.id == 1:
+                    return "logged in admin"
+
+            def inaccessible_callback(self, name, **kwargs):
+                return redirect(url_for("home_bp.get_all_posts"))
+
+        class MyAdminIndexView(AdminIndexView):
+            def is_accessible(self):
+                return current_user.get_id()
+
+            def inaccessible_callback(self, name, **kwargs):
+                if not current_user.is_authenticated or not current_user.id == 1:
+                    print("not logged in")
+                    return redirect(url_for("home_bp.get_all_posts"))
+
+        # Flask-Admin
+        admin = Admin(
+            app,
+            name="Dashboard",
+            template_mode="bootstrap3",
+            index_view=MyAdminIndexView(),
+        )
+        admin.add_view(ModelView(Users, db.session))
+        admin.add_view(ModelView(BlogPosts, db.session))
+        admin.add_view(ModelView(Comments, db.session))
 
         return app
