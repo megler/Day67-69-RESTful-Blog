@@ -12,15 +12,17 @@ The blog has how been updated to include:
 
 1. User login and authentication
 2. An admin panel that is protected with user authentication
-3. A very basic admin function that needs to be fleshed out
-4. A comments section
-5. A working contact form
-6. Contextual error messages
-7. A relational database
+3. A comments section
+4. A working contact form
+5. Contextual error messages
+6. A relational database (Postgres in production)
 
-The admin is currently the first user in the database. Every other user is a
+For posts and edits, the admin is currently the first user in the database. Every other user is a
 subscriber. The navigation menu will change if the user is an admin and logged in.
 Further, only an admin can add/edit posts.
+
+In the admin dashboard (flask-admin), the admin is defined as logged in user who
+has a specific email address (saved in env file). 
 
 Users must be logged in to save comments on any blog post.
 
