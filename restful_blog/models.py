@@ -17,9 +17,21 @@ class BlogPosts(db.Model):
     author_id = db.Column(db.Integer,
                           db.ForeignKey("users.id"),
                           nullable=False)
+    post_category_id = db.Column(db.Integer,
+                                 db.ForeignKey("categories.id"),
+                                 nullable=False)
     post_comments = db.relationship("Comments",
                                     backref="blog_posts",
                                     lazy=True)
+
+
+class Categories(db.Model):
+    __tablename__ = "categories"
+    id = db.Column(db.Integer, primary_key=True)
+    post_categories = db.relationship("BlogPosts",
+                                      backref="categories",
+                                      lazy=True)
+    category = db.Column(db.String(250), unique=True, nullable=True)
 
 
 class Users(UserMixin, db.Model):

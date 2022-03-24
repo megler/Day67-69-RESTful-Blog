@@ -1,6 +1,7 @@
 """Initialize Flask app."""
 from flask import Flask, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_login import LoginManager, current_user
@@ -30,6 +31,8 @@ def create_app():
     app.config.from_object("config.Config")
 
     Bootstrap(app)
+
+    migrate = Migrate(app, db)
     ckeditor.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
