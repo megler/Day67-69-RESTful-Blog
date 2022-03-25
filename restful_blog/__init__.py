@@ -2,6 +2,7 @@
 from flask import Flask, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy import MetaData
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_login import LoginManager, current_user
@@ -17,6 +18,7 @@ from os import environ, path
 import os
 
 db = SQLAlchemy()
+migrate = Migrate()
 ckeditor = CKEditor()
 login_manager = LoginManager()
 csrf = CSRFProtect()
@@ -29,10 +31,12 @@ def create_app():
     """Create Flask application."""
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("config.Config")
-
     Bootstrap(app)
-
-    migrate = Migrate(app, db, render_as_batch=True)
+    migrate.init_app(
+        app,
+        db,
+        render_as_batch=True,
+    )
     ckeditor.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)

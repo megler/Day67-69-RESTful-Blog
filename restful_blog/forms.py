@@ -10,7 +10,6 @@ class CreatePost(FlaskForm):
     categories = SelectField("Categories:",
                              validators=[DataRequired()],
                              id="select_category")
-    subtitle = StringField(label="Subtitle", validators=[DataRequired()])
     author = StringField(label="Your Name", validators=[DataRequired()])
     img_url = StringField(label="Blog Image URL", validators=[DataRequired()])
     body = CKEditorField(label="Blog Content", validators=[DataRequired()])

@@ -72,7 +72,6 @@ def new_post():
             body=add_post_form.body.data,
             author=add_post_form.author.data,
             img_url=add_post_form.img_url.data,
-            subtitle=add_post_form.subtitle.data,
             author_id=current_user.id,
             post_category_id=add_post_form.categories.data[0],
         )
@@ -91,7 +90,6 @@ def edit_post(index):
     post = BlogPosts.query.get(index)
     edit_form = CreatePost(
         title=post.title,
-        subtitle=post.subtitle,
         img_url=post.img_url,
         author=post.author,
         body=post.body,
@@ -104,7 +102,6 @@ def edit_post(index):
         post_edit.body = edit_form.body.data
         post_edit.author = edit_form.author.data
         post_edit.img_url = edit_form.img_url.data
-        post_edit.subtitle = edit_form.subtitle.data
         post_edit.post_category_id = edit_form.categories.data[0]
         db.session.commit()
         return redirect(url_for("posts_bp.show_post", index=index))
