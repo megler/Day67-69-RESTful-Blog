@@ -6,6 +6,8 @@ from restful_blog.models import BlogPosts, db, Comments, Users, Categories
 from restful_blog.forms import CreatePost, CommentsForm
 from datetime import date
 from functools import wraps
+import markdown
+import markdown.extensions.fenced_code
 
 # Blueprint Configuration
 posts_bp = Blueprint("posts_bp",
@@ -33,6 +35,7 @@ def admin_only(f):
 def show_post(index):
     form = CommentsForm()
     post = BlogPosts.query.get(index)
+    post_body = markdown.markdown(post.body, extensions=["fenced_code"])
     comments = Comments.query.filter_by(post_comment_id=index).all()
     if current_user.is_authenticated and request.method == "POST":
         add_comment_db = Comments(
@@ -51,6 +54,7 @@ def show_post(index):
             error=error,
         ))
     return render_template("post.html",
+                           post_body=post_body,
                            post=post,
                            form=form,
                            comments=comments)
