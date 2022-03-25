@@ -484,6 +484,14 @@ footer .copyright {
   padding: 25px 35px;
 }
 
-.fa-circle {
-  color: green;
+#fa-circle-github {
+  color: #2c974b;
+}
+
+#fa-circle-linkedin {
+  color: #478cd1;
+}
+
+#fa-circle-portfolio {
+  color: #AD3E7A;
 }
