@@ -2,7 +2,7 @@ from cgitb import text
 from flask import Blueprint, render_template, redirect, url_for, request, abort
 from flask_login import current_user
 from flask import current_app as app
-from restful_blog.models import BlogPosts, db, Comments, Users
+from restful_blog.models import BlogPosts, db, Comments, Users, Categories
 from restful_blog.forms import CreatePost, CommentsForm
 from datetime import date
 from functools import wraps
@@ -63,6 +63,8 @@ def new_post():
     t = date.today()
     author = current_user.name
     add_post_form = CreatePost(author=author)
+    add_post_form.categories.choices = [(row.id, row.category)
+                                        for row in Categories.query.all()]
     if request.method == "POST":
         add_post_db = BlogPosts(
             title=add_post_form.title.data,
@@ -72,6 +74,7 @@ def new_post():
             img_url=add_post_form.img_url.data,
             subtitle=add_post_form.subtitle.data,
             author_id=current_user.id,
+            post_category_id=add_post_form.categories.data[0],
         )
         db.session.add(add_post_db)
         db.session.commit()
@@ -93,6 +96,8 @@ def edit_post(index):
         author=post.author,
         body=post.body,
     )
+    edit_form.categories.choices = [(row.id, row.category)
+                                    for row in Categories.query.all()]
     if request.method == "POST":
         post_edit = post
         post_edit.title = edit_form.title.data
@@ -100,6 +105,7 @@ def edit_post(index):
         post_edit.author = edit_form.author.data
         post_edit.img_url = edit_form.img_url.data
         post_edit.subtitle = edit_form.subtitle.data
+        post_edit.post_category_id = edit_form.categories.data[0]
         db.session.commit()
         return redirect(url_for("posts_bp.show_post", index=index))
     return render_template("make-post.html",

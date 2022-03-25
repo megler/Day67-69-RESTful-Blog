@@ -1,11 +1,15 @@
 from flask_wtf import FlaskForm
 from flask_ckeditor import CKEditorField
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired
 
 
 class CreatePost(FlaskForm):
+
     title = StringField(label="Title", validators=[DataRequired()])
+    categories = SelectField("Categories:",
+                             validators=[DataRequired()],
+                             id="select_category")
     subtitle = StringField(label="Subtitle", validators=[DataRequired()])
     author = StringField(label="Your Name", validators=[DataRequired()])
     img_url = StringField(label="Blog Image URL", validators=[DataRequired()])

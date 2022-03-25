@@ -32,7 +32,7 @@ def create_app():
 
     Bootstrap(app)
 
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, render_as_batch=True)
     ckeditor.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
@@ -58,7 +58,7 @@ def create_app():
         from .users import routes
         from .posts import routes
         from .home import routes
-        from .models import BlogPosts, Users, Comments
+        from .models import BlogPosts, Users, Comments, Categories
 
         # Database
         engine = create_engine(
@@ -101,6 +101,7 @@ def create_app():
         admin.add_view(MyModelView(Users, db.session))
         admin.add_view(MyModelView(BlogPosts, db.session))
         admin.add_view(MyModelView(Comments, db.session))
+        admin.add_view(MyModelView(Categories, db.session))
         admin.add_link(
             MenuLink(
                 name="Front Page",
