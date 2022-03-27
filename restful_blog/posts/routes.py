@@ -1,5 +1,5 @@
 from cgitb import text
-from flask import Blueprint, render_template, redirect, url_for, request, abort
+from flask import Blueprint, render_template, redirect, url_for, request, abort, Markup
 from flask_login import current_user
 from flask import current_app as app
 from restful_blog.models import BlogPosts, db, Comments, Users, Categories
@@ -8,6 +8,8 @@ from datetime import date
 from functools import wraps
 import markdown
 import markdown.extensions.fenced_code
+import markdown.extensions.codehilite
+from pygments.formatters import HtmlFormatter
 
 # Blueprint Configuration
 posts_bp = Blueprint("posts_bp",
@@ -33,9 +35,19 @@ def admin_only(f):
 
 @posts_bp.route("/post/<int:index>", methods=["GET", "POST"])
 def show_post(index):
+
     form = CommentsForm()
     post = BlogPosts.query.get(index)
-    post_body = markdown.markdown(post.body, extensions=["fenced_code"])
+    post_body = markdown.markdown(
+        post.body,
+        extensions=[
+            "fenced_code", "markdown.extensions.attr_list", "codehilite"
+        ],
+    )
+    formatter = HtmlFormatter(style="tango", full=True, cssclass="codehilite")
+    css_string = formatter.get_style_defs()
+    md_css_string = "<style>" + css_string + "</style>"
+    md_template = md_css_string + post_body
     comments = Comments.query.filter_by(post_comment_id=index).all()
     if current_user.is_authenticated and request.method == "POST":
         add_comment_db = Comments(
@@ -54,7 +66,7 @@ def show_post(index):
             error=error,
         ))
     return render_template("post.html",
-                           post_body=post_body,
+                           post_body=md_template,
                            post=post,
                            form=form,
                            comments=comments)
