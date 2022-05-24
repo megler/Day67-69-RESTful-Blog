@@ -2,8 +2,14 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask import current_app as app
 from flask_login import current_user
 from restful_blog.models import BlogPosts, Users, Comments
-from mailjet_rest import Client
+from flask_recaptcha import ReCaptcha
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+recaptcha = ReCaptcha(app)
 
 # Blueprint Configuration
 home_bp = Blueprint("home_bp",
@@ -15,7 +21,7 @@ home_bp = Blueprint("home_bp",
 @home_bp.route("/", methods=["GET"])
 def get_all_posts():
     """Homepage"""
-    posts = BlogPosts.query.all()
+    posts = BlogPosts.query.order_by(BlogPosts.date.desc()).all()
     return render_template("index.html", posts=posts)
 
 
@@ -27,34 +33,35 @@ def about():
 
 @home_bp.route("/contact", methods=["GET", "POST"])
 def contact():
-    # api_key = app.config["API_KEY"]
-    # api_secret = app.config["API_SECRET"]
-    # """Contact Page"""
-    # if request.method == "POST":
-    #     sname = request.form["name"]
-    #     semail = request.form["email"]
-    #     smessage = request.form["message"]
-    #     mailjet = Client(auth=(api_key, api_secret), version="v3.1")
-    #     data = {
-    #         "Messages": [{
-    #             "From": {
-    #                 "Email": os.environ["MJ_SENDER_EMAIL"],
-    #                 "Name": "Marceia with Python Study Group",
-    #             },
-    #             "To": [{
-    #                 "Email": os.environ["MJ_RECEIVER_EMAIL"],
-    #                 "Name": "Marceia"
-    #             }],
-    #             "Subject":
-    #             "Contact Form From Your blog",
-    #             "TextPart":
-    #             f"From: {sname}\nEmail: {semail}\nMessage: {smessage}",
-    #         }]
-    #     }
-    #     result = mailjet.send.create(data=data)
-    #     print(result.status_code)
-    #     print(result.json())
-    #     if result.status_code == 200:
-    #         flash("Your email was sent. Someone will get back with you soon.")
-    #         return redirect(url_for("home_bp.get_all_posts"))
-    return render_template("contact.html")
+    SENDGRID_API_KEY = app.config["SENDGRID_API_KEY"]
+    SENDGRID_EMAIL_SENDER = app.config["SENDGRID_EMAIL_SENDER"]
+    captcha_confirm = ""  # Create empty message
+
+    if request.method == "POST":
+        sname = request.form["name"]
+        semail = request.form["email"]
+        smessage = request.form["message"]
+        if recaptcha.verify():
+            captcha_confirm = "Thanks for filling out the form!"
+        else:
+            captcha_confirm = "Please fill out the ReCaptcha!"
+        message = Mail(
+            from_email=SENDGRID_EMAIL_SENDER,
+            to_emails=SENDGRID_EMAIL_SENDER,
+            subject="Change_Blog Contact Form",
+            html_content=f"From: {sname} at {semail}<br /> Message: {smessage}",
+        )
+        try:
+            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+            if response.status_code == 200:
+                flash(
+                    "Your email was sent. Someone will get back with you soon."
+                )
+                return redirect(url_for("home_bp.get_all_posts"))
+        except Exception as e:
+            print(e)
+    return render_template("contact.html", captcha_confirm=captcha_confirm)

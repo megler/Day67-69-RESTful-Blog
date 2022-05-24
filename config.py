@@ -31,6 +31,10 @@ class Config:
                                           "sqlite:///posts.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Mailjet
-    API_KEY = environ.get("MJ_APIKEY_PUBLIC")
-    API_SECRET = environ.get("MJ_APIKEY_PRIVATE")
+    # Sendgrid
+    SENDGRID_API_KEY = environ.get("SENDGRID_API_KEY")
+    SENDGRID_EMAIL_SENDER = environ.get("SENDGRID_EMAIL_SENDER")
+
+    # reCaptcha
+    RECAPTCHA_SITE_KEY = environ.get("RECAPTCHA_SITE_KEY")
+    RECAPTCHA_SECRET_KEY = environ.get("RECAPTCHA_SECRET_KEY")
