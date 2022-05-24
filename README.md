@@ -31,7 +31,7 @@ has a specific email address (saved in env file).
 
 Users must be logged in to save comments on any blog post.
 
-The contact form utilized the [MailJet API](mailjet.com) to send emails from the
+The contact form utilized the [Sendgrid](sendgrid.com) to send emails from the
 contact form.
 
 ## Usage
