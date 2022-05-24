@@ -101,6 +101,7 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+
 # Scrapy stuff:
 .scrapy
 
@@ -182,4 +183,5 @@ __pycache__
 #Misc#
 ######
 .jpg
+*.db
 
