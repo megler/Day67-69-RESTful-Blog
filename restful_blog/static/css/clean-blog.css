@@ -213,7 +213,7 @@ img::-moz-selection {
     transition: background-color 0.2s;
     /* Force Hardware Acceleration in WebKit */
     transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
+    
   }
   #mainNav.is-fixed {
     /* when the user scrolls down, we hide the header right above the viewport */
@@ -498,4 +498,14 @@ footer .copyright {
 
 .codehilite {
   background-color: whitesmoke;
+}
+
+.ohnohy{
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+  z-index: -1;
 }

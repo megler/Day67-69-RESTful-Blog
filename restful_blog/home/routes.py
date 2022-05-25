@@ -38,9 +38,9 @@ def contact():
     captcha_confirm = ""  # Create empty message
 
     if request.method == "POST":
-        sname = request.form["name"]
-        semail = request.form["email"]
-        smessage = request.form["message"]
+        sname = request.form["nameaksljf"]
+        semail = request.form["emaillkjkl"]
+        smessage = request.form["messagesdfg"]
         if recaptcha.verify():
             captcha_confirm = "Thanks for filling out the form!"
         else:
