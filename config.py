@@ -32,7 +32,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Sendgrid
-    SENDGRID_API_KEY = environ.get("SENDGRID_API_KEY")
+    SENDGRID_API_SECRET_KEY = environ.get("SENDGRID_API_SECRET_KEY")
     SENDGRID_EMAIL_SENDER = environ.get("SENDGRID_EMAIL_SENDER")
 
     # reCaptcha

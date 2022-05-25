@@ -2,66 +2,67 @@
 
 <!-- Page Header -->
 {# Attribution: Photo by Riccardo from Pexels: https://www.pexels.com/photo/ice-river-photography-300857/ #}
-<header class="masthead" style="background-image: url(https://images.pexels.com/photos/300857/pexels-photo-300857.jpeg?cs=srgb&dl=pexels-riccardo-300857.jpg&fm=jpg)">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="site-heading">
-          <h1>change_blog</h1>
-          <span class="subheading">A Python development blog</span>
+    <header class="masthead" style="background-image: url(https://images.pexels.com/photos/300857/pexels-photo-300857.jpeg?cs=srgb&dl=pexels-riccardo-300857.jpg&fm=jpg)"> <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>change_blog</h1>
+                    <span class="subheading">A Python development blog</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </header>
 
 <!-- Main Content -->
 <div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">{% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class="flashes">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-      {% endwith %}</div>
-  </div>
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      {% for post in posts %}
-        <div class="post-preview">
-          <a href="{{ url_for('posts_bp.show_post', index=post.id) }}">
-            <h2 class="post-title">
-              {{post.title}}
-            </h2>
-            <h3 class="post-subtitle">
-              {{post.subtitle}}
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">{{post.author}}</a>
-            on
-            {{post.date}}
-            {% if current_user.is_authenticated and current_user.id == 1 : %}
-              <a href="{{ url_for('posts_bp.delete_post', index=post.id) }}">✘</a>
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">{% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </ul>
             {% endif %}
-          </p>
-        </div>
-        <hr>
-      {% endfor %}
-
-      <!-- New Post -->
-      <div class="clearfix">
-        {% if current_user.is_authenticated and current_user.id == 1 : %}
-          <a class="btn btn-primary float-right" href="{{ url_for('posts_bp.new_post') }}">Create New Post</a>
-        {% endif %}
-      </div>
+            {% endwith %}</div>
     </div>
-  </div>
-</div>
-<hr>
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {% for post in posts %}
+                <div class="post-preview">
+                    <a href="{{ url_for('posts_bp.show_post', index=post.id) }}">
+                        <h2 class="post-title">
+                            {{ post.title }}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{ post.subtitle }}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Posted by
+                        <a href="#">{{ post.author }}</a>
+                        on
+                        {{ post.date }}
+                        {% if current_user.is_authenticated and current_user.id == 1 : %}
+                            <a href="{{ url_for('posts_bp.delete_post', index=post.id) }}">✘</a>
+                        {% endif %}
+                    </p>
+                </div>
+                <hr>
+                {% endfor %}
 
-{% include "footer.html" %}
+                <!-- New Post -->
+                <div class="clearfix">
+                    {% if current_user.is_authenticated and current_user.id == 1 : %}
+                        <a class="btn btn-primary float-right" href="{{ url_for('posts_bp.new_post') }}">Create New Post</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+        {% include "footer.html" %}

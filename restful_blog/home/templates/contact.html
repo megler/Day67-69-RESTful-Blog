@@ -52,14 +52,15 @@
                                     <label class="ohnohy" for="message"></label>
                                     <input class="ohnohy" autocomplete="off" type="text" id="message" name="message" placeholder="Your message here">
                                         <div id="success"></div>
-                                        {{ recaptcha }}
-                                        <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
-                                    </form>
-                                    <p>{{ captcha_confirm }}</p>
+                                        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+                                            <input type="hidden" name="action" value="validate_captcha">
+                                                <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <hr>
+                                <hr>
 
-                            {% include "footer.html" %}
+                                    {% include "footer.html" %}

@@ -2,14 +2,13 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask import current_app as app
 from flask_login import current_user
 from restful_blog.models import BlogPosts, Users, Comments
-from flask_recaptcha import ReCaptcha
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
-import os
+import os, requests
 
 load_dotenv()
-recaptcha = ReCaptcha(app)
+recaptcha = ()
 
 # Blueprint Configuration
 home_bp = Blueprint("home_bp",
@@ -33,18 +32,17 @@ def about():
 
 @home_bp.route("/contact", methods=["GET", "POST"])
 def contact():
-    SENDGRID_API_KEY = app.config["SENDGRID_API_KEY"]
+    SENDGRID_API_KEY = app.config["SENDGRID_API_SECRET_KEY"]
     SENDGRID_EMAIL_SENDER = app.config["SENDGRID_EMAIL_SENDER"]
-    captcha_confirm = ""  # Create empty message
+    print(SENDGRID_API_KEY)
 
     if request.method == "POST":
-        sname = request.form["input1"]
-        semail = request.form["input2"]
-        smessage = request.form["input3"]
-        if recaptcha.verify():
-            captcha_confirm = "Thanks for filling out the form!"
-        else:
-            captcha_confirm = "Please fill out the ReCaptcha!"
+        sname = request.form["nameaksljf"]
+        semail = request.form["emaillkjkl"]
+        smessage = request.form["messagesdfg"]
+        parameters = request.form
+        recaptcha_passed = False
+        recaptcha_response = parameters.get("g-recaptcha-response")
         message = Mail(
             from_email=SENDGRID_EMAIL_SENDER,
             to_emails=SENDGRID_EMAIL_SENDER,
@@ -52,16 +50,22 @@ def contact():
             html_content=f"From: {sname} at {semail}<br /> Message: {smessage}",
         )
         try:
+            recaptcha_secret = app.config["RECAPTCHA_SECRET_KEY"]
+            response = requests.post(
+                f"https://www.google.com/recaptcha/api/siteverify?secret={recaptcha_secret}&response={recaptcha_response}"
+            ).json()
+            recaptcha_passed = response.get("success")
+            print(recaptcha_passed)
             sg = SendGridAPIClient(SENDGRID_API_KEY)
             response = sg.send(message)
             print(response.status_code)
             print(response.body)
             print(response.headers)
-            if response.status_code == 200:
+            if response.status_code >= 200 and response.status_code < 300:
                 flash(
                     "Your email was sent. Someone will get back with you soon."
                 )
                 return redirect(url_for("home_bp.get_all_posts"))
         except Exception as e:
             print(e)
-    return render_template("contact.html", captcha_confirm=captcha_confirm)
+    return render_template("contact.html")
