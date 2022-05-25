@@ -21,7 +21,7 @@ home_bp = Blueprint("home_bp",
 @home_bp.route("/", methods=["GET"])
 def get_all_posts():
     """Homepage"""
-    posts = BlogPosts.query.order_by(BlogPosts.date.desc()).all()
+    posts = BlogPosts.query.order_by(BlogPosts.id.desc()).all()
     return render_template("index.html", posts=posts)
 
 
